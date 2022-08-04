@@ -40,7 +40,8 @@ class Util(commands.Cog):
     
     @commands.command()
     async def cogs(self,ctx):
-        await ctx.send(f"```py\n{'\n'.join(self.bot.cogs)}\n```")
+        out = '\n'.join(self.bot.cogs)
+        await ctx.send(f"```py\n{out}\n```")
 
 async def setup(bot):
     await bot.add_cog(Util(bot))
