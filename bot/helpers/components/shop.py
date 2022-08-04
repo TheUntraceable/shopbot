@@ -31,6 +31,11 @@ class Shop:
             inventory if inventory else []
             )
     
+    def restock(self,multiplier:int=1,item:str=None): 
+        ...
+        
+
+    
     def to_dict(self):
         return {
             "name":self.name,
@@ -57,4 +62,4 @@ class Shop:
     
     async def render_shop(self):
         # render an image of the shop with the components~
-        ...
+        return self.to_dict()
