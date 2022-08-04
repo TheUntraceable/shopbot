@@ -8,14 +8,15 @@ if TYPE_CHECKING:
 
 
 class CommandErrorHandler(commands.Cog):
-
     def __init__(self, bot):
-        self.bot:'Bot' = bot
+        self.bot: "Bot" = bot
 
     @commands.Cog.listener()
-    async def on_command_error(self, ctx:commands.Context, error:commands.CommandError):
+    async def on_command_error(
+        self, ctx: commands.Context, error: commands.CommandError
+    ):
 
-        if hasattr(ctx.command, 'on_error'):
+        if hasattr(ctx.command, "on_error"):
             return
 
         cog = ctx.cog
@@ -23,9 +24,9 @@ class CommandErrorHandler(commands.Cog):
             if cog._get_overridden_method(cog.cog_command_error) is not None:
                 return
 
-        ignored = (commands.CommandNotFound, )
+        ignored = (commands.CommandNotFound,)
 
-        error = getattr(error, 'original', error)
+        error = getattr(error, "original", error)
 
         if isinstance(error, ignored):
             return
@@ -33,19 +34,21 @@ class CommandErrorHandler(commands.Cog):
             try:
                 raise error
             except:
-                self.bot.log.exception(f'Error in command {ctx.command}')
-                await ctx.send(f'Error in command {ctx.command}```py\n{traceback.format_exc()}\n```')
+                self.bot.log.exception(f"Error in command {ctx.command}")
+                await ctx.send(
+                    f"Error in command {ctx.command}```py\n{traceback.format_exc()}\n```"
+                )
 
     @commands.command()
-    async def error(self, ctx:commands.Context):
-        await ctx.send(0/0)
-    
+    async def error(self, ctx: commands.Context):
+        await ctx.send(0 / 0)
+
     @commands.command()
-    async def test1(self, ctx:commands.Context):
+    async def test1(self, ctx: commands.Context):
         await ctx.send(1)
 
     @commands.command()
-    async def test2(self, ctx:commands.Context):
+    async def test2(self, ctx: commands.Context):
         await ctx.reply(2)
 
 
