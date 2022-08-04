@@ -8,7 +8,6 @@ from ..helpers.view import ShopCreate
 class Shops(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
-        
 
     @commands.group(name="shop",invoke_without_command=True)
     async def shop(self,ctx):
