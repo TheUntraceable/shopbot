@@ -24,7 +24,7 @@ class ShopCreate(discord.ui.View):
     async def farmside(
         self,
         interaction:discord.Interaction,
-        button:discord.ui.Button
+        _
         ):
         self.conf["world"] = "farmside"
         #await interaction.response.send_message("farmside selected.",ephemeral=True)
@@ -34,7 +34,7 @@ class ShopCreate(discord.ui.View):
     async def metropolis(
         self,
         interaction:discord.Interaction,
-        button:discord.ui.Button
+        _
         ):
         self.conf["world"] = "metropolis"
         #await interaction.response.send_message("metropolis selected.",ephemeral=True)
@@ -44,7 +44,7 @@ class ShopCreate(discord.ui.View):
     async def underworld(
         self,
         interaction:discord.Interaction,
-        button:discord.ui.Button
+        _
         ):
         self.conf["world"] = "underworld"
         #await interaction.response.send_message("underworld selected.",ephemeral=True)

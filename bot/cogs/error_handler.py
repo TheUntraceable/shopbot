@@ -49,6 +49,5 @@ class CommandErrorHandler(commands.Cog):
         await ctx.reply(2)
 
 
-
 async def setup(bot):
     await bot.add_cog(CommandErrorHandler(bot))

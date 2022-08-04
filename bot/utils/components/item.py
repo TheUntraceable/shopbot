@@ -32,7 +32,3 @@ class Item:
         self.icon = dat["icon"]
         self.release_time = dat["release_time"]
         return self
-        
-
-    
-    

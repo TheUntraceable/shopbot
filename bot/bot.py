@@ -36,15 +36,15 @@ class Bot(commands.Bot):
         await self.load_cogs()
 
     async def load_cogs(self):
-        for filename in os.listdir("./bot/commands"):
+        for filename in os.listdir("./bot/cogs"):
             if filename.endswith(".py"):
-                self.log.info(f"Loading commands: {filename[:-3]}")
-                await self.load_extension(f"bot.commands.{filename[:-3]}")    
+                self.log.info(f"Loading cogs: {filename[:-3]}")
+                await self.load_extension(f"bot.cogs.{filename[:-3]}")    
     
     async def unload_cogs(self):
         for cog in self.cogs:
-            self.log.info(f"Unloading commands: {cog}")
-            await self.unload_extension(f"bot.commands.{cog}")
+            self.log.info(f"Unloading cogs: {cog}")
+            await self.unload_extension(f"bot.cogs.{cog}")
 
 
 

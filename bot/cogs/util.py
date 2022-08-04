@@ -17,13 +17,13 @@ class Util(commands.Cog):
     @commands.command()
     async def unloadcog(self,ctx,extension):
         self.bot.log.info(f'Unloading cog {extension}')
-        await self.bot.unload_extension(f'bot.commands.{extension}')
+        await self.bot.unload_extension(f'bot.cogs.{extension}')
         await ctx.send(f'Unloaded {extension}')
     
     @commands.command()
     async def loadcog(self,ctx,extension):
         self.bot.log.info(f'Loading cog {extension}')
-        await self.bot.load_extension(f'bot.commands.{extension}')
+        await self.bot.load_extension(f'bot.cogs.{extension}')
         await ctx.send(f'Reloaded {extension}')
     
     @commands.command()
@@ -33,16 +33,14 @@ class Util(commands.Cog):
             await self.bot.load_cogs()
         else:
             self.bot.log.info(f'Unloading cog {extension}')
-            await self.bot.unload_extension(f'bot.commands.{extension}')
+            await self.bot.unload_extension(f'bot.cogs.{extension}')
             self.bot.log.info(f'Loading cog {extension}')
-            await self.bot.load_extension(f'bot.commands.{extension}')
+            await self.bot.load_extension(f'bot.cogs.{extension}')
             await ctx.send(f'Reloaded {extension}')
     
     @commands.command()
     async def cogs(self,ctx):
-        out = ''
-        out += '\n'.join(self.bot.cogs)
-        await ctx.send(f'```py\n{out}\n```')
+        await ctx.send(f"```py\n{'\n'.join(self.bot.cogs)}\n```")
 
 async def setup(bot):
     await bot.add_cog(Util(bot))

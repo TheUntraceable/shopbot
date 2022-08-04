@@ -1,8 +1,8 @@
 import discord
 from discord.ext import commands
 
-from ..helpers.components import Item, Shop
-from ..helpers.view import ShopCreate
+from ..utils.components import Item, Shop
+from ..utils.views import ShopCreate
 
 
 class Shops(commands.Cog):
