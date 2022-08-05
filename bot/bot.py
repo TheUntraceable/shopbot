@@ -17,16 +17,21 @@ class Bot(commands.Bot):
         self.start_time = time.time()
 
         # create commands.Bot
-        super().__init__(command_prefix=";",intents=discord.Intents.all(),*args, **kwargs)
-    
+        super().__init__(
+            command_prefix=";", intents=discord.Intents.all(), *args, **kwargs
+        )
+
     def set_logging(self):
         FORMAT = "%(message)s"
         self.console = Console()
         logging.basicConfig(
-            level=logging.INFO, format=FORMAT, datefmt="[%X]", handlers=[RichHandler(rich_tracebacks=True,console=self.console)]
+            level=logging.INFO,
+            format=FORMAT,
+            datefmt="[%X]",
+            handlers=[RichHandler(rich_tracebacks=True, console=self.console)],
         )
         self.log = logging.getLogger("rich")
-        self.log.info("Logging set up.")    
+        self.log.info("Logging set up.")
 
     async def on_ready(self):
         self.log.info(f"Logged in as {self.user.name}")
@@ -39,13 +44,9 @@ class Bot(commands.Bot):
         for filename in os.listdir("./bot/cogs"):
             if filename.endswith(".py"):
                 self.log.info(f"Loading cogs: {filename[:-3]}")
-                await self.load_extension(f"bot.cogs.{filename[:-3]}")    
-    
+                await self.load_extension(f"bot.cogs.{filename[:-3]}")
+
     async def unload_cogs(self):
         for cog in self.cogs:
             self.log.info(f"Unloading cogs: {cog}")
             await self.unload_extension(f"bot.cogs.{cog}")
-
-
-
-    
