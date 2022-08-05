@@ -1,6 +1,10 @@
+import json
 from typing import TYPE_CHECKING
 
+import discord
 from discord.ext import commands
+
+from ..helpers.imagetools import ImageGen
 
 if TYPE_CHECKING:
     from ..bot import Bot
@@ -9,6 +13,11 @@ if TYPE_CHECKING:
 class Util(commands.Cog):
     def __init__(self, bot):
         self.bot:'Bot' = bot
+    
+    @commands.command()
+    async def gen_image(self,ctx,*,conf:str):
+        await ctx.send(file=ImageGen().gen(json.loads(conf)))
+
 
     @commands.command()
     async def ping(self, ctx):

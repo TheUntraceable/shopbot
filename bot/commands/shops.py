@@ -22,7 +22,8 @@ class Shops(commands.Cog):
             color=0x2F3136
             )
         msg = await ctx.reply("getting everything ready for you...",embed=embed)
-        await msg.edit(content='',embed=embed,view=ShopCreate())        
+        setattr(ctx,"bot_msg",msg)
+        await msg.edit(content='',embed=embed,view=ShopCreate(ctx))        
 
     
 
