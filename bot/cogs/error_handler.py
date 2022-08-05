@@ -53,4 +53,4 @@ class CommandErrorHandler(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(CommandErrorHandler(bot))  
+    await bot.add_cog(CommandErrorHandler(bot))
