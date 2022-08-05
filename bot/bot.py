@@ -28,6 +28,7 @@ class Bot(commands.Bot):
             config = json.load(f)
         self.token = config["token"]
         self.mongodb_uri = config["mongodb_uri"]
+
         self.cluster = motor.motor_ascynio.AsyncIOMotorClient(self.mongodb_uri)
         self.db = self.cluster["ShopBot"]
         self.db.levelling = self.db["levelling"]
@@ -62,3 +63,7 @@ class Bot(commands.Bot):
         for cog in self.cogs:
             self.log.info(f"Unloading cogs: {cog}")
             await self.unload_extension(f"bot.cogs.{cog}")
+
+    def run(self):
+        self.log.info("Starting bot...")
+        super().run(self.token)
