@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 import discord
 from discord.ext import commands
 
-from ..helpers.imagetools import ImageGen
+from ..utils.imagetools import ImageGen
 
 if TYPE_CHECKING:
     from ..bot import Bot

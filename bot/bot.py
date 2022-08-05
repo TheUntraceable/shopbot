@@ -5,7 +5,7 @@ import time
 
 import discord
 from discord.ext import commands
-import motor
+import motor.motor_asyncio
 from rich.console import Console
 from rich.logging import RichHandler
 
@@ -22,16 +22,6 @@ class Bot(commands.Bot):
         super().__init__(
             command_prefix=";", intents=discord.Intents.all(), *args, **kwargs
         )
-
-        with open("./.config.json") as f:
-            config = json.load(f)
-        self.token = config["token"]
-        self.mongodb_uri = config["mongodb_uri"]
-
-        self.cluster = motor.motor_ascynio.AsyncIOMotorClient(self.mongodb_uri)
-        self.db = self.cluster["ShopBot"]
-        self.db.levelling = self.db["levelling"]
-        self.db.shop = self.db["shop"]  # NOTE: This is for you @Flicko
 
     def set_logging(self):
         FORMAT = "%(message)s"
