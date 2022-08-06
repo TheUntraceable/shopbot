@@ -8,12 +8,21 @@ from discord.ext import commands
 import motor.motor_asyncio
 from rich.console import Console
 from rich.logging import RichHandler
+from .utils.components.db import Database
 
 
 class Bot(commands.Bot):
     def __init__(self, *args, **kwargs):
         # init logging
         self.set_logging()
+
+        # init conf
+        with open("./config.json") as f:
+            config = json.load(f)
+        self.token = config["token"]
+
+        # init database
+        self.db = Database()
 
         # store start time
         self.start_time = time.time()

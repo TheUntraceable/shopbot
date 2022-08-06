@@ -31,4 +31,4 @@ class ImageGen:
         world.save(arr, format="PNG")
         arr.seek(0)
         f = discord.File(arr, filename=path.split("/")[-1])
-        return f
+        return f,path.split("/")[-1]
