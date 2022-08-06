@@ -8,8 +8,9 @@ if TYPE_CHECKING:
 class LevellingTheme(
     commands.Cog
 ):  # This is the cog which will handle the "Levelling" theme.
-    def __init__(self, bot:'Bot'):
+    def __init__(self, bot: "Bot"):
         self.bot = bot
+
 
 async def setup(bot):
     await bot.add_cog(LevellingTheme(bot))
