@@ -1,11 +1,12 @@
-import motor.motor_asyncio
 import json
+
+import motor.motor_asyncio
+
 
 class Database:
     def __init__(self):
         with open("./config.json") as f:
             config = json.load(f)
-        self.token = config["token"]
         self.mongodb_uri = config["mongodb_uri"]
 
         self.cluster = motor.motor_asyncio.AsyncIOMotorClient(self.mongodb_uri)
