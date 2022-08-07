@@ -40,4 +40,4 @@ class ShopDB:
 
     async def get_shops(self, d_id):
         doc = await self.get_doc(d_id)
-        return doc["shops"]
+        return doc.get("shops") if doc else None
