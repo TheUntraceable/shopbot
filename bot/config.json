@@ -1,4 +1,4 @@
 {
     "token": "OTc3ODczOTU5OTkzMzY0NTAw.GdgWAG.qpcvYpFjwmitBvZj4PZU-BsCaK6DZt9km18oyI",
-    "mongodb_uri": "mongodb://localhost:27017/"
+    "mongodb_uri": "mongodb+srv://sususer:flickoissus@cluster0.a9z5e.mongodb.net/?retryWrites=true&w=majority"
 }
