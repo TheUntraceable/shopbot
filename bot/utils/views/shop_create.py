@@ -35,7 +35,8 @@ class ShopCreate(discord.ui.View):
         if shops:
             if shops.get(conf["name"]):
                 embed = discord.Embed(
-                    title=f"**~ welcome to the start of your journey ~**", color=0x2F3136
+                    title=f"**~ welcome to the start of your journey ~**",
+                    color=0x2F3136,
                 )
                 img, filename = ImageGen().gen(conf)
                 if self.conf.get("world"):

@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 class Shops(commands.Cog):
-    def __init__(self, bot:'Bot'):
+    def __init__(self, bot: "Bot"):
         self.bot = bot
 
     @commands.group(name="shop", invoke_without_command=True)
