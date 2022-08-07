@@ -36,15 +36,9 @@ class LevellingTheme(
     async def level(self, ctx):
         document = await self.bot.db.levelling.find_one({"user_id": ctx.author.id})
         if document is None:
-            await self.bot.db.levelling.insert_one({
-                "user_id": ctx.author.id,
-                "xp": 0
-            })
-            document = await self.bot.db.levelling.find_one({
-                "user_id": ctx.author.id
-            })
+            await self.bot.db.levelling.insert_one({"user_id": ctx.author.id, "xp": 0})
+            document = await self.bot.db.levelling.find_one({"user_id": ctx.author.id})
         await ctx.send(f"{ctx.author.mention} you have {document['xp']} xp!")
-
 
 
 async def setup(bot):
