@@ -8,7 +8,7 @@ from discord.ext import commands
 import motor.motor_asyncio
 from rich.console import Console
 from rich.logging import RichHandler
-from .utils.components.db import Database
+from .utils.util_classes.db import Database
 
 
 class Bot(commands.Bot):
