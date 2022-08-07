@@ -1,3 +1,5 @@
+from asyncio import sleep
+from random import randint
 from discord.ext import commands
 from typing import TYPE_CHECKING
 
@@ -19,8 +21,32 @@ class LevellingTheme(
             return
 
         self.levelling_cooldowns.add(message.author.id)
-        await self.bot.db.levelling
+        await self.bot.db.levelling.update_one({
+            "user_id": message.author.id
+        }, {
+            "$inc": {
+                "xp": int(1*randint(0, 5.909841093821093821098))
+            }
+        })
+        await sleep(30)
         self.levelling_cooldowns.remove(message.author.id)
+
+    @commands.command(name="level", aliases=["lvl"])
+    async def level(self, ctx):
+        document = await self.bot.db.levelling.find_one({
+            "user_id": ctx.author.id
+        })
+        if document is None:
+            await self.bot.db.levelling.insert_one({
+                "user_id": ctx.author.id,
+                "xp": 0
+            })
+            document = await self.bot.db.levelling.find_one({
+                "user_id": ctx.author.id
+            })
+        await ctx.send(f"{ctx.author.mention} your xp is {document['xp']}")
+
+    
 
 async def setup(bot):
     await bot.add_cog(LevellingTheme(bot))
