@@ -44,9 +44,9 @@ class LevellingTheme(
             document = await self.bot.db.levelling.find_one({
                 "user_id": ctx.author.id
             })
-        await ctx.send(f"{ctx.author.mention} your xp is {document['xp']}")
+        await ctx.send(f"{ctx.author.mention} you have {document['xp']} xp!")
 
-    
+
 
 async def setup(bot):
     await bot.add_cog(LevellingTheme(bot))
