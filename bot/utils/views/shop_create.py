@@ -31,13 +31,18 @@ class ShopCreate(discord.ui.View):
     async def build_embed(self, conf: dict = None):
         if not conf:
             conf = self.conf
-        embed = discord.Embed(
-            title=f"**~ welcome to the start of your journey ~**", color=0x2F3136
-        )
-        img, filename = ImageGen().gen(conf)
-        if self.conf.get("world"):
-            embed.set_image(url=f"attachment://{filename}")
-        return embed, [img]
+        shops = self.ctx.me.db.shop.get_shops(self.ctx.author.id)
+        if shops:
+            if shops.get(conf["name"]):
+                embed = discord.Embed(
+                    title=f"**~ welcome to the start of your journey ~**",
+                    color=0x2F3136,
+                )
+                img, filename = ImageGen().gen(conf)
+                if self.conf.get("world"):
+                    embed.set_image(url=f"attachment://{filename}")
+                self.ctx.me.db.shop.update_shops(self.ctx.author.id, [conf])
+                return embed, [img]
 
     @discord.ui.button(label="farm", style=discord.ButtonStyle.green)
     async def farmside(self, interaction: discord.Interaction, _):

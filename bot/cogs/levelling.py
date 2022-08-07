@@ -17,25 +17,24 @@ class LevellingTheme(
     @commands.Cog.listener()
     async def on_message(self, message):
 
-        if message.author.id in self.levelling_cooldowns or message.author.bot or message.guild is None:
+        if (
+            message.author.id in self.levelling_cooldowns
+            or message.author.bot
+            or message.guild is None
+        ):
             return
 
         self.levelling_cooldowns.add(message.author.id)
-        await self.bot.db.levelling.update_one({
-            "user_id": message.author.id
-        }, {
-            "$inc": {
-                "xp": int(1*randint(0, 5.909841093821093821098))
-            }
-        })
+        await self.bot.db.levelling.update_one(
+            {"user_id": message.author.id},
+            {"$inc": {"xp": int(1 * randint(0, 5.909841093821093821098))}},
+        )
         await sleep(30)
         self.levelling_cooldowns.remove(message.author.id)
 
     @commands.command(name="level", aliases=["lvl"])
     async def level(self, ctx):
-        document = await self.bot.db.levelling.find_one({
-            "user_id": ctx.author.id
-        })
+        document = await self.bot.db.levelling.find_one({"user_id": ctx.author.id})
         if document is None:
             await self.bot.db.levelling.insert_one({
                 "user_id": ctx.author.id,
