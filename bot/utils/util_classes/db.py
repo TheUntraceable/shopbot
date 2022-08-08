@@ -11,6 +11,7 @@ class Database:
         self.cluster = motor.motor_asyncio.AsyncIOMotorClient(self.mongodb_uri)
         self.db = self.cluster["ShopBot"]
         self.levelling = self.db["levelling"]
+        self.damage_contribution = self.db["damage_contribution"]
         self.shop = ShopDB(self.db)
 
 
