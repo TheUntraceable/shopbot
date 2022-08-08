@@ -2,6 +2,8 @@ from random import randint
 from typing import Optional
 from discord import Embed, User
 from discord.ext import commands
+
+
 class Economy(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -12,19 +14,19 @@ class Economy(commands.Cog):
             "wallet": 0,
             "bank": 0,
             "max_bank": 0,
-            "daily_streak": 0
+            "daily_streak": 0,
         }
 
-    @commands.command(aliases=["b","bal"])
+    @commands.command(aliases=["b", "bal"])
     async def balance(self, ctx, member: Optional[User] = None):
         """Check your balance."""
         member = member or ctx.author
         document = await self.bot.db.economy.find_one({"user_id": member.id})
-        
+
         if document is None:
             await self.bot.db.economy.insert_one(self.get_default_document(member.id))
             document = self.get_default_document(member.id)
-        
+
         embed = Embed(
             title=f"{member}'s balance",
         )
@@ -41,7 +43,9 @@ class Economy(commands.Cog):
         """Withdraw money from your bank"""
         document = await self.bot.db.economy.find_one({"user_id": ctx.author.id})
         if document is None:
-            await self.bot.db.economy.insert_one(self.get_default_document(ctx.author.id))
+            await self.bot.db.economy.insert_one(
+                self.get_default_document(ctx.author.id)
+            )
             document = self.get_default_document(ctx.author.id)
         if document["bank"] < amount:
             await ctx.reply("You don't have that much in your bank.")
@@ -57,15 +61,17 @@ class Economy(commands.Cog):
         """Deposit money into your bank"""
         document = await self.bot.db.economy.find_one({"user_id": ctx.author.id})
         if document is None:
-            await self.bot.db.economy.insert_one(self.get_default_document(ctx.author.id))
+            await self.bot.db.economy.insert_one(
+                self.get_default_document(ctx.author.id)
+            )
             document = self.get_default_document(ctx.author.id)
         if document["wallet"] < amount:
             await ctx.reply("You don't have that much in your wallet.")
             return
-    
+
         if sum(document["bank"], amount) > document["max_bank"]:
             await ctx.reply("You can't deposit that much in your bank.")
-            return 
+            return
 
         await self.bot.db.economy.update_one(
             {"user_id": ctx.author.id},
@@ -76,8 +82,7 @@ class Economy(commands.Cog):
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):
         await self.bot.db.economy.update_one(
-            {"user_id": ctx.author.id},
-            {"$inc": {"max_bank": randint(1, 50)}}
+            {"user_id": ctx.author.id}, {"$inc": {"max_bank": randint(1, 50)}}
         )
 
     @commands.command(aliases=["d"])
@@ -86,11 +91,13 @@ class Economy(commands.Cog):
         document = await self.bot.db.economy.find_one({"user_id": ctx.author.id})
 
         if document is None:
-            await self.bot.db.economy.insert_one(self.get_default_document(ctx.author.id))
+            await self.bot.db.economy.insert_one(
+                self.get_default_document(ctx.author.id)
+            )
             document = self.get_default_document(ctx.author.id)
 
-        amount = 10000 # Base Amount
-        
+        amount = 10000  # Base Amount
+
         while document["daily_streak"] > 0:
             amount *= 1.1
             document["daily_streak"] -= 1
