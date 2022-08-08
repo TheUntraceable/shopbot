@@ -29,7 +29,7 @@ class LevellingTheme(
         document = await self.bot.db.levelling.find_one({"user_id": message.author.id})
         await self.bot.db.levelling.update_one(
             {"user_id": message.author.id},
-            {"$inc": {"xp": int(1 * randint(0, 5.909841093821093821098))}},
+            {"$inc": {"xp": int(1 * randint(0, 5))}},
         )
         await sleep(15)
         self.levelling_cooldowns.remove(message.author.id)

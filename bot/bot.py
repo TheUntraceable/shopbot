@@ -48,6 +48,7 @@ class Bot(commands.Bot):
         self.log.info(f"Connected to {len(self.guilds)} servers")
         self.log.info(f"Connected to {len(self.users)} users")
         self.log.info(f"Bot uptime: {time.time() - self.start_time} seconds")
+        await self.load_extension("jishaku")
         await self.load_cogs()
 
     async def load_cogs(self):
