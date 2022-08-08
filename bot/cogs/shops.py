@@ -2,7 +2,6 @@ from typing import TYPE_CHECKING
 import discord
 from discord.ext import commands
 
-from ..utils.components import Item, Shop
 from ..utils.views import ShopCreate
 
 if TYPE_CHECKING:
