@@ -34,7 +34,7 @@ class Shops(commands.Cog):
     @shop.command(name="new", aliases=["create"])
     async def shop_new(self, ctx):
         """Create a new shop."""
-        if self.bot.db.shop.count_documents({ '_id': ctx.author.id }, limit = 1):
+        if self.bot.db.shop.count_documents({"_id": ctx.author.id}, limit=1):
             await ctx.reply("You already have a shop.")
             return
         embed = discord.Embed(
