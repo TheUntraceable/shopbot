@@ -18,7 +18,7 @@ class Util(commands.Cog):
     async def del_rec(self, ctx, col, id):
         await self.bot.db.__getattribute__(col).delete_one({"_id": int(id)})
         await ctx.send(f"{id} has been deleted")
-    
+
     @commands.command()
     async def show_rec(self, ctx, col, id):
         e = await self.bot.db.__getattribute__(col).find_one({"_id": int(id)})
