@@ -84,27 +84,29 @@ class Economy(commands.Cog):
         await self.bot.db.economy.update_one(
             {"user_id": ctx.author.id}, {"$inc": {"max_bank": randint(1, 50)}}
         )
+    
+    def calculate_shop_income(self, shop):
+        return (sum(item["price"] for item in shop["items"])*shop["level"])
 
     @commands.command(aliases=["d"])
-    async def daily(self, ctx):
+    async def collect(self, ctx):
         """Get your daily reward"""
         document = await self.bot.db.economy.find_one({"user_id": ctx.author.id})
-
         if document is None:
             await self.bot.db.economy.insert_one(
                 self.get_default_document(ctx.author.id)
             )
             document = self.get_default_document(ctx.author.id)
-
-        amount = 10000  # Base Amount
-
+        shop = await self.bot.db.shop.find_one({"user_id": ctx.author.id})
+        if shop is None:
+            await ctx.reply("you dont have a shop to collect income from")
+            return
+        amount = self.calculate_shop_income(shop)
         while document["daily_streak"] > 0:
             amount *= 1.1
             document["daily_streak"] -= 1
-
         await self.bot.db.economy.update_one(
             {"user_id": ctx.author.id},
             {"$inc": {"wallet": amount, "daily_streak": 1}},
         )
-
         await ctx.reply(f"You claimed your daily reward and got {amount}!")
