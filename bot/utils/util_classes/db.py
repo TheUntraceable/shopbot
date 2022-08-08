@@ -12,6 +12,7 @@ class Database:
         self.db = self.cluster["ShopBot"]
         self.levelling = self.db["levelling"]
         self.damage_contribution = self.db["damage_contribution"]
+        self.economy = sef.db["economy"]
         self.shop = ShopDB(self.db)
 
 

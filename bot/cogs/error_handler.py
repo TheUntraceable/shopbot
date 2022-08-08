@@ -15,7 +15,7 @@ class CommandErrorHandler(commands.Cog):
     async def on_command_error(
         self, ctx: commands.Context, error: commands.CommandError
     ):
-
+        ctx.command.reset_cooldown(ctx)
         if hasattr(ctx.command, "on_error"):
             return
 
