@@ -55,6 +55,7 @@ class Bot(commands.Bot):
             if filename.endswith(".py"):
                 self.log.info(f"Loading cogs: {filename[:-3]}")
                 await self.load_extension(f"bot.cogs.{filename[:-3]}")
+        await self.load_extension("jishaku")
 
     async def unload_cogs(self):
         for cog in self.cogs:
