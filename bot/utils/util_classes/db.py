@@ -14,6 +14,7 @@ class Database:
         self.damage_contribution = self.db["damage_contribution"]
         self.economy = self.db["economy"]
         self.shop = self.db["shop"]
+        self.item = self.db["item"]
 
 
 class ShopDB:
