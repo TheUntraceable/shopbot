@@ -13,7 +13,7 @@ class LevellingTheme(
     def __init__(self, bot: "Bot"):
         self.bot = bot
         self.levelling_cooldowns = set()
-        self.BOSS_HEALTH = 1e9 # 1 Billion? idk
+        self.BOSS_HEALTH = 1e9  # 1 Billion? idk
 
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -26,9 +26,7 @@ class LevellingTheme(
             return
 
         self.levelling_cooldowns.add(message.author.id)
-        document = await self.bot.db.levelling.find_one({
-            "user_id": message.author.id
-        })
+        document = await self.bot.db.levelling.find_one({"user_id": message.author.id})
         await self.bot.db.levelling.update_one(
             {"user_id": message.author.id},
             {"$inc": {"xp": int(1 * randint(0, 5.909841093821093821098))}},
@@ -36,9 +34,9 @@ class LevellingTheme(
         await sleep(15)
         self.levelling_cooldowns.remove(message.author.id)
 
-    def get_level(self,xp):
+    def get_level(self, xp):
         level = 0
-        while xp > ((50*(level**2)) + (50*level)):
+        while xp > ((50 * (level**2)) + (50 * level)):
             level += 1
         return level
 
