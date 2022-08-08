@@ -11,9 +11,12 @@ class ShopCreate(discord.ui.View):
         self.conf = {}
 
     async def save(self):
+        for child in self.children:
+            self.remove_item(child)
         await self.ctx.bot.db.shop.update_one(
             {"_id": self.ctx.author.id}, {"$set": self.conf}
         )
+        await self.ctx.bot_msg.edit(view=self)
 
     async def top_phase(self):
         for child in self.children:
@@ -50,7 +53,7 @@ class ShopCreate(discord.ui.View):
         self.conf["world"] = "farm"
         # await interaction.response.send_message("farmside selected.",ephemeral=True)
         embed, img = await self.build_embed()
-        await interaction.response.edit_message(attachments=img, embed=embed)
+        await interaction.response.edit_message(attachments=[img], embed=embed)
         await self.wall_phase()
 
     @discord.ui.button(label="city", style=discord.ButtonStyle.gray)
@@ -58,7 +61,7 @@ class ShopCreate(discord.ui.View):
         self.conf["world"] = "city"
         # await interaction.response.send_message("metropolis selected.",ephemeral=True)
         embed, img = await self.build_embed()
-        await interaction.response.edit_message(attachments=img, embed=embed)
+        await interaction.response.edit_message(attachments=[img], embed=embed)
         await self.wall_phase()
 
     @discord.ui.button(label="nether", style=discord.ButtonStyle.red)
@@ -66,5 +69,5 @@ class ShopCreate(discord.ui.View):
         self.conf["world"] = "nether"
         # await interaction.response.send_message("underworld selected.",ephemeral=True)
         embed, img = await self.build_embed()
-        await interaction.response.edit_message(attachments=img, embed=embed)
+        await interaction.response.edit_message(attachments=[img], embed=embed)
         await self.wall_phase()
