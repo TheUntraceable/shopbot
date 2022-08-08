@@ -28,7 +28,6 @@ class Shops(commands.Cog):
         )
         msg = await ctx.reply("getting everything ready for you...", embed=embed)
         setattr(ctx, "bot_msg", msg)
-        setattr(ctx, "me", self.bot)
         await msg.edit(content="", embed=embed, view=ShopCreate(ctx))
 
 

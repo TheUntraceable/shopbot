@@ -31,7 +31,7 @@ class ShopCreate(discord.ui.View):
     async def build_embed(self, conf: dict = None):
         if not conf:
             conf = self.conf
-        shops = self.ctx.me.db.shop.get_shops(self.ctx.author.id)
+        shops = self.ctx.bot.db.shop.get_shops(self.ctx.author.id)
         if shops:
             if shops.get(conf["name"]):
                 embed = discord.Embed(
@@ -41,7 +41,7 @@ class ShopCreate(discord.ui.View):
                 img, filename = ImageGen().gen(conf)
                 if self.conf.get("world"):
                     embed.set_image(url=f"attachment://{filename}")
-                self.ctx.me.db.shop.update_shops(self.ctx.author.id, [conf])
+                self.ctx.bot.db.shop.update_shops(self.ctx.author.id, [conf])
                 return embed, [img]
 
     @discord.ui.button(label="farm", style=discord.ButtonStyle.green)
