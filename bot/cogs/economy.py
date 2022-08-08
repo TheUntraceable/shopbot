@@ -110,3 +110,6 @@ class Economy(commands.Cog):
             {"$inc": {"wallet": amount, "daily_streak": 1}},
         )
         await ctx.reply(f"You claimed your daily reward and got {amount}!")
+
+async def setup(bot):
+    await bot.add_cog(Economy(bot))
