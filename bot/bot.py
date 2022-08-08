@@ -28,7 +28,7 @@ class Bot(commands.Bot):
 
         # create commands.Bot
         super().__init__(
-            command_prefix=";", intents=discord.Intents.all(), *args, **kwargs
+            command_prefix=";", intents=discord.Intents.all(), *args, **kwargs, owner_ids=[482139697796349953,507969622876618754,903667860499484742]
         )
 
     def set_logging(self):
