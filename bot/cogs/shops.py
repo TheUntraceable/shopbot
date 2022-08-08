@@ -16,19 +16,19 @@ class Shops(commands.Cog):
     async def shop(self, ctx):
         if ctx.invoked_subcommand is None:
             await ctx.send("Invalid shop command passed.")
-    
-    def defaults(self,user):
+
+    def defaults(self, user):
         return {
-            "_id":user.id,
+            "_id": user.id,
             "name": f"{user.name}'s shop",
             "description": f"{user.name} hasnt bothered to enter a description yet",
             "items": [],
             "level": 0,
-            "price": 1, 
+            "price": 1,
             "sales": 0,
             "stock": 0,
-            "made_at":time.time(),
-            "conf":{}
+            "made_at": time.time(),
+            "conf": {},
         }
 
     @shop.command(name="new", aliases=["create"])
