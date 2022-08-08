@@ -5,7 +5,6 @@ import time
 
 import discord
 from discord.ext import commands
-import motor.motor_asyncio
 from rich.console import Console
 from rich.logging import RichHandler
 from .utils.util_classes.db import Database
