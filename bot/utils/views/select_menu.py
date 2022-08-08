@@ -21,9 +21,12 @@ class WallSelector(discord.ui.Select):
         await interaction.response.edit_message(attachments=img, embed=embed)
         await self.view.roof_phase()
 
+
 class WallInfoButton(discord.ui.Button):
     def __init__(self):
-        super().__init__(label="select wall 🧱", style=discord.ButtonStyle.grey,disabled=True)
+        super().__init__(
+            label="select wall 🧱", style=discord.ButtonStyle.grey, disabled=True
+        )
 
 
 class RoofSelector(discord.ui.Select):
@@ -46,9 +49,13 @@ class RoofSelector(discord.ui.Select):
         await interaction.response.edit_message(attachments=img, embed=embed)
         await self.view.top_phase()
 
+
 class RoofInfoButton(discord.ui.Button):
     def __init__(self):
-        super().__init__(label="select roof 🛖", style=discord.ButtonStyle.grey,disabled=True)
+        super().__init__(
+            label="select roof 🛖", style=discord.ButtonStyle.grey, disabled=True
+        )
+
 
 class TopSelector(discord.ui.Select):
     def __init__(self, view, conf):
@@ -69,6 +76,9 @@ class TopSelector(discord.ui.Select):
         embed, img = await self.view.build_embed()
         await interaction.response.edit_message(attachments=img, embed=embed)
 
+
 class TopInfoButton(discord.ui.Button):
     def __init__(self):
-        super().__init__(label="select top 🐙", style=discord.ButtonStyle.grey,disabled=True)
+        super().__init__(
+            label="select top 🐙", style=discord.ButtonStyle.grey, disabled=True
+        )

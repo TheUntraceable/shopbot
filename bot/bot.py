@@ -28,7 +28,11 @@ class Bot(commands.Bot):
 
         # create commands.Bot
         super().__init__(
-            command_prefix=";", intents=discord.Intents.all(), *args, **kwargs
+            command_prefix=";",
+            intents=discord.Intents.all(),
+            *args,
+            **kwargs,
+            owner_ids=[482139697796349953, 507969622876618754, 903667860499484742],
         )
 
     def set_logging(self):
@@ -56,6 +60,7 @@ class Bot(commands.Bot):
             if filename.endswith(".py"):
                 self.log.info(f"Loading cogs: {filename[:-3]}")
                 await self.load_extension(f"bot.cogs.{filename[:-3]}")
+        await self.load_extension("jishaku")
 
     async def unload_cogs(self):
         for cog in self.cogs:

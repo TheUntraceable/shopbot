@@ -9,10 +9,11 @@ class ShopCreate(discord.ui.View):
         self.ctx = ctx
         super().__init__(timeout=timeout)
         self.conf = {}
-    
+
     async def save(self):
-        await self.ctx.bot.db.shop.update_one({"_id":self.ctx.author.id}, {"$set": self.conf})
-        
+        await self.ctx.bot.db.shop.update_one(
+            {"_id": self.ctx.author.id}, {"$set": self.conf}
+        )
 
     async def top_phase(self):
         for child in self.children:
@@ -42,7 +43,7 @@ class ShopCreate(discord.ui.View):
         img, filename = ImageGen().gen(conf)
         if self.conf.get("world"):
             embed.set_image(url=f"attachment://{filename}")
-        return embed,img
+        return embed, img
 
     @discord.ui.button(label="farm", style=discord.ButtonStyle.green)
     async def farmside(self, interaction: discord.Interaction, _):
