@@ -35,16 +35,16 @@ class Shops(commands.Cog):
     @shop.command(name="new", aliases=["create"])
     async def shop_new(self, ctx):
         """Create a new shop."""
-        if not await self.bot.db.shop.find_one({ '_id': ctx.author.id }):
+        if not await self.bot.db.shop.find_one({"_id": ctx.author.id}):
             await self.bot.db.shop.insert_one(self.defaults(ctx.author))
-        if (await self.bot.db.shop.find_one({ '_id': ctx.author.id })).get("world"):
+        if (await self.bot.db.shop.find_one({"_id": ctx.author.id})).get("world"):
             await ctx.reply("You already have a shop.")
             return
         embed = discord.Embed(
             title=f"**~ welcome to the start of your journey ~**", color=0x2F3136
         )
         msg = await ctx.reply("getting everything ready for you...", embed=embed)
-        
+
         setattr(ctx, "bot_msg", msg)
         await msg.edit(content="", embed=embed, view=ShopCreate(ctx))
 
@@ -54,17 +54,18 @@ class Shops(commands.Cog):
         m = await ctx.reply("fetching image")
         profile = await self.bot.db.shop.find_one({"_id": ctx.author.id})
         embed = discord.Embed(
-            title=f"**your shop**", color=0x2F3136,
-            description=f"```\n{profile['description']}\n```\n```yaml\n{str(profile['name'])}\n```"
+            title=f"**your shop**",
+            color=0x2F3136,
+            description=f"```\n{profile['description']}\n```\n```yaml\n{str(profile['name'])}\n```",
         )
-        img,p = ImageGen().gen(await self.bot.db.shop.find_one({"_id": ctx.author.id}))
-        items = '\n> '.join(profile['items']) or "None"
-        embed.add_field(name="`items`",value=f"{items}",inline=False)
-        embed.add_field(name="`level`",value=f"> {profile['level']}",inline=True)
-        embed.add_field(name="`sales`",value=f"> {profile['sales']}",inline=False)
-        embed.add_field(name="`stock`",value=f"> {profile['stock']}",inline=True)
-        embed.set_image(url="attachment://"+p)
-        await m.edit(content="",attachments=[img], embed=embed)
+        img, p = ImageGen().gen(await self.bot.db.shop.find_one({"_id": ctx.author.id}))
+        items = "\n> ".join(profile["items"]) or "None"
+        embed.add_field(name="`items`", value=f"{items}", inline=False)
+        embed.add_field(name="`level`", value=f"> {profile['level']}", inline=True)
+        embed.add_field(name="`sales`", value=f"> {profile['sales']}", inline=False)
+        embed.add_field(name="`stock`", value=f"> {profile['stock']}", inline=True)
+        embed.set_image(url="attachment://" + p)
+        await m.edit(content="", attachments=[img], embed=embed)
 
 
 async def setup(bot):

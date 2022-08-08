@@ -15,8 +15,8 @@ class Util(commands.Cog):
         self.bot: "Bot" = bot
 
     @commands.command()
-    async def del_rec(self,ctx,col,id):
-        await self.bot.db.__getattribute__(col).delete_one({"_id":int(id)})
+    async def del_rec(self, ctx, col, id):
+        await self.bot.db.__getattribute__(col).delete_one({"_id": int(id)})
         await ctx.send(f"{id} has been deleted")
 
     @commands.command()
