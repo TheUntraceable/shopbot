@@ -84,9 +84,9 @@ class Economy(commands.Cog):
         await self.bot.db.economy.update_one(
             {"user_id": ctx.author.id}, {"$inc": {"max_bank": randint(1, 50)}}
         )
-    
+
     def calculate_shop_income(self, shop):
-        return (sum(item["price"] for item in shop["items"])*shop["level"])
+        return sum(item["price"] for item in shop["items"]) * shop["level"]
 
     @commands.command(aliases=["d"])
     async def collect(self, ctx):
