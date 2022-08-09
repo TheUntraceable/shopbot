@@ -10,7 +10,7 @@ class Economy(commands.Cog):
 
     def get_default_document(self, author_id):
         return {
-            "user_id": author_id,
+            "_id": author_id,
             "wallet": 0,
             "bank": 0,
             "max_bank": 0,
@@ -21,7 +21,7 @@ class Economy(commands.Cog):
     async def balance(self, ctx, member: Optional[User] = None):
         """Check your balance."""
         member = member or ctx.author
-        document = await self.bot.db.economy.find_one({"user_id": member.id})
+        document = await self.bot.db.economy.find_one({"_id": member.id})
 
         if document is None:
             await self.bot.db.economy.insert_one(self.get_default_document(member.id))
@@ -41,7 +41,7 @@ class Economy(commands.Cog):
     @commands.command(aliases=["w"])
     async def withdraw(self, ctx, amount: int):
         """Withdraw money from your bank"""
-        document = await self.bot.db.economy.find_one({"user_id": ctx.author.id})
+        document = await self.bot.db.economy.find_one({"_id": ctx.author.id})
         if document is None:
             await self.bot.db.economy.insert_one(
                 self.get_default_document(ctx.author.id)
@@ -51,7 +51,7 @@ class Economy(commands.Cog):
             await ctx.reply("You don't have that much in your bank.")
             return
         await self.bot.db.economy.update_one(
-            {"user_id": ctx.author.id},
+            {"_id": ctx.author.id},
             {"$inc": {"bank": -amount, "wallet": amount}},
         )
         await ctx.reply(f"You withdrew {amount} from your bank.")
@@ -59,7 +59,7 @@ class Economy(commands.Cog):
     @commands.command(aliases=["dep"])
     async def deposit(self, ctx, amount: int):
         """Deposit money into your bank"""
-        document = await self.bot.db.economy.find_one({"user_id": ctx.author.id})
+        document = await self.bot.db.economy.find_one({"_id": ctx.author.id})
         if document is None:
             await self.bot.db.economy.insert_one(
                 self.get_default_document(ctx.author.id)
@@ -74,7 +74,7 @@ class Economy(commands.Cog):
             return
 
         await self.bot.db.economy.update_one(
-            {"user_id": ctx.author.id},
+            {"_id": ctx.author.id},
             {"$inc": {"wallet": -amount, "bank": amount}},
         )
         await ctx.reply(f"You deposited {amount} into your bank.")
@@ -82,7 +82,7 @@ class Economy(commands.Cog):
     @commands.Cog.listener()
     async def on_command_completion(self, ctx):
         await self.bot.db.economy.update_one(
-            {"user_id": ctx.author.id}, {"$inc": {"max_bank": randint(1, 50)}}
+            {"_id": ctx.author.id}, {"$inc": {"max_bank": randint(1, 50)}}
         )
 
     def calculate_shop_income(self, shop):
@@ -91,25 +91,41 @@ class Economy(commands.Cog):
     @commands.command(aliases=["d"])
     async def collect(self, ctx):
         """Get your daily reward"""
-        document = await self.bot.db.economy.find_one({"user_id": ctx.author.id})
-        if document is None:
-            await self.bot.db.economy.insert_one(
-                self.get_default_document(ctx.author.id)
-            )
-            document = self.get_default_document(ctx.author.id)
-        shop = await self.bot.db.shop.find_one({"user_id": ctx.author.id})
-        if shop is None:
-            await ctx.reply("you dont have a shop to collect income from")
-            return
-        amount = self.calculate_shop_income(shop)
+        item = await self.bot.db.item.find_one({"_id": ctx.author.id})
+        document = await self.bot.db.economy.find_one({"_id": ctx.author.id})
+        bought = randint(0,item["stock"])
         while document["daily_streak"] > 0:
-            amount *= 1.1
+            bought += 1
             document["daily_streak"] -= 1
-        await self.bot.db.economy.update_one(
-            {"user_id": ctx.author.id},
-            {"$inc": {"wallet": amount, "daily_streak": 1}},
+        await self.bot.db.item.update_one(
+            {"_id": ctx.author.id}, {"$inc": {"stock": -bought}}
         )
-        await ctx.reply(f"You claimed your daily reward and got {amount}!")
+        await self.bot.db.economy.update_one(
+            {"_id": ctx.author.id}, {"$inc": {"wallet": bought*item['price']}}
+        )
+        await ctx.reply(f"You collected {bought} items. for {bought*item['price']}🪙")
+
+
+
+
+        ###
+        # document = await self.bot.db.economy.find_one({"_id": ctx.author.id})
+        # if document is None:
+        #     await self.bot.db.economy.insert_one(
+        #         self.get_default_document(ctx.author.id)
+        #     )
+        #     document = self.get_default_document(ctx.author.id)
+        # shop = await self.bot.db.shop.find_one({"_id": ctx.author.id})
+        # if shop is None:
+        #     await ctx.reply("you dont have a shop to collect income from")
+        #     return
+        # amount = self.calculate_shop_income(shop)
+        # 
+        # await self.bot.db.economy.update_one(
+        #     {"_id": ctx.author.id},
+        #     {"$inc": {"wallet": amount, "daily_streak": 1}},
+        # )
+        # await ctx.reply(f"You claimed your daily reward and got {amount}!")
 
 
 async def setup(bot):

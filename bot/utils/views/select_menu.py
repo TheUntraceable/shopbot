@@ -2,15 +2,13 @@ import discord
 
 
 class WallSelector(discord.ui.Select):
-    def __init__(self, view, conf):
+    def __init__(self, view, conf,up):
         self._view = view
         self.conf = conf
         view.add_item(WallInfoButton())
-        options = [
-            discord.SelectOption(label="farm", emoji="🟢", value="farm"),
-            discord.SelectOption(label="nether", emoji="🟠", value="nether"),
-            discord.SelectOption(label="city", emoji="⚫", value="city"),
-        ]
+        options = []
+        for i in up["wall"]:
+            options.append(discord.SelectOption(label=i, emoji="🟢", value=i))
         super().__init__(
             placeholder="Select a wall", max_values=1, min_values=1, options=options
         )
@@ -30,15 +28,13 @@ class WallInfoButton(discord.ui.Button):
 
 
 class RoofSelector(discord.ui.Select):
-    def __init__(self, view, conf):
+    def __init__(self, view, conf,up):
         self._view = view
         self.conf = conf
         view.add_item(RoofInfoButton())
-        options = [
-            discord.SelectOption(label="farm", emoji="🟢", value="farm"),
-            discord.SelectOption(label="nether", emoji="🟠", value="nether"),
-            discord.SelectOption(label="city", emoji="⚫", value="city"),
-        ]
+        options = []
+        for i in up["roof"]:
+            options.append(discord.SelectOption(label=i, emoji="🟢", value=i))
         super().__init__(
             placeholder="Select a roof", max_values=1, min_values=1, options=options
         )
@@ -58,15 +54,13 @@ class RoofInfoButton(discord.ui.Button):
 
 
 class TopSelector(discord.ui.Select):
-    def __init__(self, view, conf):
+    def __init__(self, view, conf,up):
         self._view = view
         self.conf = conf
         view.add_item(TopInfoButton())
-        options = [
-            discord.SelectOption(label="farm", emoji="🟢", value="farm"),
-            discord.SelectOption(label="nether", emoji="🟠", value="nether"),
-            discord.SelectOption(label="city", emoji="⚫", value="city"),
-        ]
+        options = []
+        for i in up["top"]:
+            options.append(discord.SelectOption(label=i, emoji="🟢", value=i))
         super().__init__(
             placeholder="Select a top", max_values=1, min_values=1, options=options
         )

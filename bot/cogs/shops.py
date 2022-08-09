@@ -37,7 +37,7 @@ class Shops(commands.Cog):
         """Create a new shop."""
         if not await self.bot.db.shop.find_one({"_id": ctx.author.id}):
             await self.bot.db.shop.insert_one(self.defaults(ctx.author))
-        if (await self.bot.db.shop.find_one({"_id": ctx.author.id})).get("world"):
+        if (await self.bot.db.shop.find_one({"_id": ctx.author.id}))["conf"].get("world"):
             await ctx.reply("You already have a shop.")
             return
         embed = discord.Embed(
@@ -58,12 +58,12 @@ class Shops(commands.Cog):
             color=0x2F3136,
             description=f"```\n{profile['description']}\n```\n```yaml\n{str(profile['name'])}\n```",
         )
-        img, p = ImageGen().gen(await self.bot.db.shop.find_one({"_id": ctx.author.id}))
+        img, p = ImageGen().gen(profile["conf"])
         items = "\n> ".join(profile["items"]) or "None"
         embed.add_field(name="`items`", value=f"{items}", inline=False)
-        embed.add_field(name="`level`", value=f"> {profile['level']}", inline=True)
-        embed.add_field(name="`sales`", value=f"> {profile['sales']}", inline=False)
-        embed.add_field(name="`stock`", value=f"> {profile['stock']}", inline=True)
+        embed.add_field(name="`level`", value=f"> {profile['level']}", inline=False)
+        embed.add_field(name="`sales`", value=f"> {profile['sales']}", inline=True)
+        embed.add_field(name="`stock`", value=f"> {profile['stock']}", inline=False)
         embed.set_image(url="attachment://" + p)
         await m.edit(content="", attachments=[img], embed=embed)
 

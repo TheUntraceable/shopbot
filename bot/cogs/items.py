@@ -57,6 +57,10 @@ class Items(commands.Cog):
     
     @item.command(name="restock")
     async def item_restock(self,ctx):
+        shop = await self.bot.db.shop.find_one({"_id": ctx.author.id})
+        if not shop:
+            await ctx.send("You don't have a shop.")
+            return
         await ctx.send("restocking")
         max_inc = random.randint(0,5)
         stock_inc = random.randint(1,max_inc if max_inc!=0 else 1)
