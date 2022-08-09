@@ -3,3 +3,4 @@ rich==12.5.0
 motor
 Pillow==9.2.0
 jishaku
+dnspython
