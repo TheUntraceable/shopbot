@@ -93,7 +93,7 @@ class Economy(commands.Cog):
         """Get your daily reward"""
         item = await self.bot.db.item.find_one({"_id": ctx.author.id})
         document = await self.bot.db.economy.find_one({"_id": ctx.author.id})
-        bought = randint(0,item["stock"])
+        bought = randint(0, item["stock"])
         while document["daily_streak"] > 0:
             bought += 1
             document["daily_streak"] -= 1
@@ -101,12 +101,9 @@ class Economy(commands.Cog):
             {"_id": ctx.author.id}, {"$inc": {"stock": -bought}}
         )
         await self.bot.db.economy.update_one(
-            {"_id": ctx.author.id}, {"$inc": {"wallet": bought*item['price']}}
+            {"_id": ctx.author.id}, {"$inc": {"wallet": bought * item["price"]}}
         )
         await ctx.reply(f"You collected {bought} items. for {bought*item['price']}🪙")
-
-
-
 
         ###
         # document = await self.bot.db.economy.find_one({"_id": ctx.author.id})
@@ -120,7 +117,7 @@ class Economy(commands.Cog):
         #     await ctx.reply("you dont have a shop to collect income from")
         #     return
         # amount = self.calculate_shop_income(shop)
-        # 
+        #
         # await self.bot.db.economy.update_one(
         #     {"_id": ctx.author.id},
         #     {"$inc": {"wallet": amount, "daily_streak": 1}},

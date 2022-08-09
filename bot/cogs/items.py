@@ -63,7 +63,7 @@ class Items(commands.Cog):
             await ctx.reply("you failed to create an item")
 
     @item.command(name="restock")
-    async def item_restock(self,ctx):
+    async def item_restock(self, ctx):
         shop = await self.bot.db.shop.find_one({"_id": ctx.author.id})
         if not shop:
             await ctx.send("You don't have a shop.")

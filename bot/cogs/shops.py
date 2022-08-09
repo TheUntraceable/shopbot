@@ -37,7 +37,9 @@ class Shops(commands.Cog):
         """Create a new shop."""
         if not await self.bot.db.shop.find_one({"_id": ctx.author.id}):
             await self.bot.db.shop.insert_one(self.defaults(ctx.author))
-        if (await self.bot.db.shop.find_one({"_id": ctx.author.id}))["conf"].get("world"):
+        if (await self.bot.db.shop.find_one({"_id": ctx.author.id}))["conf"].get(
+            "world"
+        ):
             await ctx.reply("You already have a shop.")
             return
         embed = discord.Embed(

@@ -5,24 +5,24 @@ from .select_menu import RoofSelector, TopSelector, WallSelector
 
 
 class ShopCreate(discord.ui.View):
-    def __init__(self, ctx, *, timeout: int = 180,conf: dict = None):
+    def __init__(self, ctx, *, timeout: int = 180, conf: dict = None):
         self.ctx = ctx
         self.bot = ctx.bot
         super().__init__(timeout=timeout)
         self.conf = conf
-        
-    def default_up(self,id):
+
+    def default_up(self, id):
         return {
-            "_id":int(id),
-            "world":["farm"],
-            "roof":["farm"],
-            "top":["farm"],
-            "wall":["farm"],
-            "quality":1,
-            "price":1,
+            "_id": int(id),
+            "world": ["farm"],
+            "roof": ["farm"],
+            "top": ["farm"],
+            "wall": ["farm"],
+            "quality": 1,
+            "price": 1,
         }
-    
-    def default_prof(self,_id):
+
+    def default_prof(self, _id):
         return {
             "_id": _id,
             "wallet": 0,
@@ -40,32 +40,31 @@ class ShopCreate(discord.ui.View):
             await self.bot.db.up.insert_one(self.default_up(self.ctx.author.id))
             doc = await self.bot.db.up.find_one({"_id": self.ctx.author.id})
         self.up = doc
-        
 
     async def save(self):
         for child in self.children:
             self.remove_item(child)
         await self.ctx.bot.db.shop.update_one(
-            {"_id": self.ctx.author.id}, {"$set": {"conf":self.conf}}
+            {"_id": self.ctx.author.id}, {"$set": {"conf": self.conf}}
         )
         await self.ctx.bot_msg.edit(view=self)
 
     async def top_phase(self):
         for child in self.children:
             self.remove_item(child)
-        self.add_item(TopSelector(self, self.conf,self.up))
+        self.add_item(TopSelector(self, self.conf, self.up))
         await self.ctx.bot_msg.edit(view=self)
 
     async def roof_phase(self):
         for child in self.children:
             self.remove_item(child)
-        self.add_item(RoofSelector(self, self.conf,self.up))
+        self.add_item(RoofSelector(self, self.conf, self.up))
         await self.ctx.bot_msg.edit(view=self)
 
     async def wall_phase(self):
         for child in self.children:
             self.remove_item(child)
-        self.add_item(WallSelector(self, self.conf,self.up))
+        self.add_item(WallSelector(self, self.conf, self.up))
         await self.ctx.bot_msg.edit(view=self)
 
     async def build_embed(self, conf: dict = None):

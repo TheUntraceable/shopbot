@@ -2,7 +2,7 @@ import discord
 
 
 class WallSelector(discord.ui.Select):
-    def __init__(self, view, conf,up):
+    def __init__(self, view, conf, up):
         self._view = view
         self.conf = conf
         view.add_item(WallInfoButton())
@@ -28,7 +28,7 @@ class WallInfoButton(discord.ui.Button):
 
 
 class RoofSelector(discord.ui.Select):
-    def __init__(self, view, conf,up):
+    def __init__(self, view, conf, up):
         self._view = view
         self.conf = conf
         view.add_item(RoofInfoButton())
@@ -54,7 +54,7 @@ class RoofInfoButton(discord.ui.Button):
 
 
 class TopSelector(discord.ui.Select):
-    def __init__(self, view, conf,up):
+    def __init__(self, view, conf, up):
         self._view = view
         self.conf = conf
         view.add_item(TopInfoButton())
